@@ -38,18 +38,38 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    var pair = appState.current;
 
     return Scaffold(
       body: Column(
         children: [
           Text('\n\n\n\nA random idea:'),
-          Text(appState.current.asUpperCase),
+          BigCard(pair: pair),
           ElevatedButton(
               onPressed: () {
                 appState.getNext();
               },
               child: Text('Next')),
         ],
+      ),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    super.key,
+    required this.pair,
+  });
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(pair.asUpperCase),
       ),
     );
   }
