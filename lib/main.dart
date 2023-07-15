@@ -183,11 +183,24 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    return Center(
-        child: ListView(
-      children: appState.favorites
-          .map((m) => Text(m.asCamelCase, style: TextStyle(fontSize: 20)))
-          .toList(),
-    ));
+    if (appState.favorites.isEmpty) {
+      return Center(
+        child: Text('No favorites yet.'),
+      );
+    }
+
+    return ListView(children: [
+      Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text('${appState.favorites.length}개 단어를 즐겨찾기 했습니다.')),
+      for (var pair in appState.favorites)
+        ListTile(
+          leading: Icon(Icons.favorite),
+          title: Text(
+            pair.asLowerCase,
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+    ]);
   }
 }
